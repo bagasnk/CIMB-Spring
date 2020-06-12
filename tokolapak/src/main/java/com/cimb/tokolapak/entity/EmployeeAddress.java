@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class EmployeeAddress {
 	
@@ -17,12 +19,20 @@ public class EmployeeAddress {
 	
 	private String city;
 	private String streetName;
-	private String zipCOde;
+	private String zipCode;
 	
 	@OneToOne(mappedBy = "employeeAddress", fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE,
 			CascadeType.PERSIST, CascadeType.REFRESH })
+	
+	@JsonIgnore
 	private Employee employee;
 	
+	public Employee getEmployee() {
+		return employee;
+	}
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
 	public int getId() {
 		return id;
 	}
@@ -41,10 +51,10 @@ public class EmployeeAddress {
 	public void setStreetName(String streetName) {
 		this.streetName = streetName;
 	}
-	public String getZipCOde() {
-		return zipCOde;
+	public String getZipCode() {
+		return zipCode;
 	}
-	public void setZipCOde(String zipCOde) {
-		this.zipCOde = zipCOde;
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
 	}
 }
