@@ -3,12 +3,14 @@ package com.cimb.tokolapak.controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cimb.tokolapak.dao.ProductRepo;
@@ -16,6 +18,7 @@ import com.cimb.tokolapak.entity.Product;
 import com.cimb.tokolapak.service.ProductService;
 
 @RestController
+@CrossOrigin
 public class ProductController {
 	
 	@Autowired
@@ -23,6 +26,7 @@ public class ProductController {
 	
 	@Autowired 
 	private ProductService productService;
+	
 	
 	@GetMapping("/products")
 	public Iterable<Product> getProduct() {
@@ -54,4 +58,9 @@ public Product updateProduct(@RequestBody Product product) {
 public Product getProductbyProductName(@PathVariable String productName) {
 	return productRepo.findByProductName(productName);
 	}
+
+@GetMapping("/products/custom")
+public Iterable<Product> customQueryGet(@RequestParam double minPrice, @RequestParam String productName){
+	return productRepo.findProductByMaxPrice(minPrice,productName);
+}
 }

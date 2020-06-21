@@ -6,6 +6,6 @@ import com.cimb.tokolapak.entity.EmployeeAddress;
 public interface EmployeeService {
 	
 	public void deleteEmployeeAddress(EmployeeAddress employeeAddress); 
-	public Optional<Employee> addEmployeeAddress(int id,  EmployeeAddress employeeAddress);
+	public Employee addEmployeeAddress(int employeeId,  EmployeeAddress employeeAddress);
 	
 }

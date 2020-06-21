@@ -1,8 +1,6 @@
 package com.cimb.tokolapak.service.impl;
 
 
-import java.util.Optional;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,15 +31,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 	@Override
 	@Transactional
-	public Optional<Employee> addEmployeeAddress(int id, EmployeeAddress employeeAddress){
-		Optional<Employee> findEmployee = employeeRepo.findById(id);
+	public Employee addEmployeeAddress(int employeeId, EmployeeAddress employeeAddress){
+		Employee findEmployee = employeeRepo.findById(employeeId).get();
 		
-		employeeAddress.setEmployee(findEmployee.get());
-		employeeAddressRepo.save(employeeAddress);
-		employeeAddress.getEmployee().setEmployeeAddress(employeeAddress);
-		employeeRepo.save(findEmployee.get());
+		if(findEmployee == null)
+			throw new RuntimeException("Employee not found");
 		
-		return employeeRepo.findById(id);
+		findEmployee.setEmployeeAddress(employeeAddress);
+		return employeeRepo.save(findEmployee);
+		/*
+		 * employeeAddress.setEmployee(findEmployee.get());
+		 * employeeAddressRepo.save(employeeAddress);
+		 * employeeAddress.getEmployee().setEmployeeAddress(employeeAddress);
+		 * employeeRepo.save(findEmployee.get()); return employeeRepo.findById(id);
+		 */
 	}
 	
 }
