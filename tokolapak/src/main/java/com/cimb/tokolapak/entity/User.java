@@ -5,8 +5,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 public class User {
 	
@@ -21,6 +19,24 @@ public class User {
 	
 	private String profilePicture;
 	
+	//buat controller baru untuk verifed seseorang
+	//
+	private String email;
+	
+	private boolean isVerified;
+	
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public boolean isVerified() {
+		return isVerified;
+	}
+	public void setVerified(boolean isVerified) {
+		this.isVerified = isVerified;
+	}
 	public String getProfilePicture() {
 		return profilePicture;
 	}

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cimb.tokolapak.dao.UserRepo;
 import com.cimb.tokolapak.entity.User;
+import com.cimb.tokolapak.util.EmailUtil;
 
 @RestController
 @RequestMapping("/users")
@@ -26,8 +27,11 @@ public class UserController {
 	
 	private PasswordEncoder pwEncoder = new BCryptPasswordEncoder();
 	
+	@Autowired
+	private EmailUtil emailUtil;
+	
 	@PostMapping
-	public User registerUser(@RequestBody User user) {
+	public User registerUser(@RequestBody User user) {	
 		Optional<User> findUser = userRepo.findByUsername(user.getUsername());
 		
 		
@@ -37,8 +41,10 @@ public class UserController {
 		
 		
 		String encodedPassword = pwEncoder.encode(user.getPassword());
-		
 		user.setPassword(encodedPassword);
+		emailUtil.sendEmail(user.getEmail(), "Registrasi Akun","<h1>Selamat</h1>\n "
+				+ "Anda telah bergabung bersama!\n "
+				+ "<a href=\"http://localhost:8080/activate?email=" + user.getEmail() + "\">KLIK DISINI</a> ini untuk verifikasi email");
 		User savedUser = userRepo.save(user);
 		savedUser.setPassword(null);
 		
@@ -67,5 +73,11 @@ public class UserController {
 		}else{
 			return null;
 		}
+	}
+	
+	@PostMapping("/sendEmail")
+	public String sendEmailTesting() {
+		this.emailUtil.sendEmail("bagasyafitrapandji.nk@gmail.com","Testing Email Spring", "<h1>Hey there</h1> APA KABAR??? BAGAS");
+		return "Email Sent!";
 	}
 }
